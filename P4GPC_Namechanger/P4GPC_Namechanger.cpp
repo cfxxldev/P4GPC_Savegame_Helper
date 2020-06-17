@@ -179,16 +179,26 @@ int main(int argc, char* argv[])
 				fwrite(&flag, 1, 1, fBin);
 				}
 
-			if (fseek(fBin, 0x019CEC, SEEK_SET) == 0)
+			if (fseek(fBin, 0x015130, SEEK_SET) == 0)
 				{
 				fwrite(lastname.c_str(), 1, 8, fBin);
 				fwrite(dummy, 1, 8, fBin);
 				}
-			if (fseek(fBin, 0x019CFE, SEEK_SET) == 0)
+			if (fseek(fBin, 0x015142, SEEK_SET) == 0)
 				{
 				fwrite(firstname.c_str(), 1, 8, fBin);
 				fwrite(dummy, 1, 8, fBin);
 				}
+			if (fseek(fBin, 0x019CEC, SEEK_SET) == 0)
+			{
+				fwrite(lastname.c_str(), 1, 8, fBin);
+				fwrite(dummy, 1, 8, fBin);
+			}
+			if (fseek(fBin, 0x019CFE, SEEK_SET) == 0)
+			{
+				fwrite(firstname.c_str(), 1, 8, fBin);
+				fwrite(dummy, 1, 8, fBin);
+			}
 
 			fclose(fBin);
 			}
