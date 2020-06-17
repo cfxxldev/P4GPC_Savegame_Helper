@@ -38,7 +38,7 @@ void backup(fs::path binslot_file)
 		strExtension << std::put_time(std::localtime(&time), "%Y%m%d_%H%M%S") << binslot_file.extension().generic_string();
 		backup_file.replace_extension(strExtension.str());
 
-		std::cout << "Creating backup: " << backup_file << "\n";
+		std::cout << "Creating backup: " << backup_file.make_preferred().string() << "\n";
 		fs::copy_file(binslot_file, backup_file, fs::copy_options::overwrite_existing);
 		}
 	}
@@ -64,16 +64,22 @@ int main(int argc, char* argv[])
 		return -1;
 
 	bool wait_for_key = separate_console();
+	std::cout << "Persona 4 Golden PC Savegame checksum updater" << '\n';
+	std::cout << "Copyright (c) 2020 Andreas Gebert" << "\n\n";
 
 	fs::path exe_file(argv[0]);
 
 	if (argc == 1)
 		{
 		wprintf(L"usage: %s dataXXXX.bin [dataXXXX.bin ...]\n", exe_file.filename().c_str());
+		wprintf(L"You can also just drag and drop a dataXXXX.bin (or multiple) file on this program.\n");
 		if (wait_for_key)
 			getchar();
 		return 0;
 		}
+
+	exe_file = fs::absolute(exe_file);
+	fs::current_path(exe_file.parent_path());
 
 	for (int iFile = 1; iFile != argc; ++iFile)
 		{
@@ -84,7 +90,7 @@ int main(int argc, char* argv[])
 			binslot_file.replace_extension(".binslot");
 			if (fs::exists(binslot_file))
 				{
-				wprintf(L"processing: %s\n", bin_file.c_str());
+				wprintf(L"processing: %s\n", bin_file.make_preferred().c_str());
 				FILE* fBin = nullptr;
 				if (_wfopen_s(&fBin, bin_file.c_str(), L"rb") == 0 && fBin)
 					{
@@ -113,7 +119,7 @@ int main(int argc, char* argv[])
 
 							backup(binslot_file);
 
-							wprintf(L"updating: %s\n", binslot_file.c_str());
+							wprintf(L"updating: %s\n", binslot_file.make_preferred().c_str());
 							FILE* fBinSlot = nullptr;
 							if (_wfopen_s(&fBinSlot, binslot_file.c_str(), L"r+b") == 0 && fBinSlot)
 								{
@@ -130,12 +136,12 @@ int main(int argc, char* argv[])
 								}
 							}
 					}
-
-
+				}
+			else
+				{
+				wprintf(L"%s not found: skipping\n",binslot_file.make_preferred().c_str());
 				}
 			}
-
-
 		}
 
 	if (wait_for_key)

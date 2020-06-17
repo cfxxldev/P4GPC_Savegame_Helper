@@ -39,7 +39,7 @@ void backup(fs::path binslot_file)
 		std::stringstream strExtension;
 		strExtension << std::put_time(std::localtime(&time), "%Y%m%d_%H%M%S") << binslot_file.extension().generic_string();
 		backup_file.replace_extension(strExtension.str());
-		std::cout << "Creating backup: " << backup_file << "\n";
+		std::cout << "Creating backup: " << backup_file.make_preferred().string() << "\n";
 		fs::copy_file(binslot_file, backup_file, fs::copy_options::overwrite_existing);
 		}
 	}
@@ -81,22 +81,28 @@ int main(int argc, char* argv[])
 
 	bool wait_for_key = separate_console();
 
+	std::cout << "Persona 4 Golden PC namechanger" << '\n';
+	std::cout << "Copyright (c) 2020 Andreas Gebert" << "\n\n";
+
 	fs::path exe_file(argv[0]);
 
 	if (argc == 1)
 		{
 		wprintf(L"usage: %s dataXXXX.bin [lastname [firstname]]\n", exe_file.filename().c_str());
+		wprintf(L"You can also just drag and drop a dataXXXX.bin file on this program.\n");
 		if (wait_for_key)
 			getchar();
 		return 0;
 		}
+
+	exe_file = fs::absolute(exe_file);
+	fs::current_path(exe_file.parent_path());
 
 	fs::path bin_file(argv[1]);
 	if (bin_file.extension() == ".bin" && fs::exists(bin_file))
 		{
 		std::string lastname	= (argc>=3)?argv[2]:"";
 		std::string firstname	= (argc>=4)?argv[3]:"";
-
 		if (lastname.empty())
 			{
 			std::cout << "please enter last name: ";
@@ -107,6 +113,7 @@ int main(int argc, char* argv[])
 			std::cout << "please enter first name: ";
 			std::cin >> firstname;
 			}
+
 		// limit length to 8 Characters
 		lastname.resize(8);
 		firstname.resize(8);
@@ -189,9 +196,9 @@ int main(int argc, char* argv[])
 		exe_file.replace_filename("P4GPC_Savegame_Checksum_Updater.exe");
 		if (fs::exists(exe_file))
 			{
-			std::cout << "Calling P4GPC_Savegame_Checksum_Updater.exe to fix up your checksum.\n";
-			std::wstring cmd = exe_file.wstring() + L" \"" + bin_file.wstring() + L"\"";
-			std::wcout << cmd << L"\n";
+			std::wcout << L"Calling " << exe_file.filename().wstring() << L" to fix up your checksum.\n";
+			std::wstring cmd = exe_file.filename().wstring() + L" \"" + bin_file.make_preferred().wstring() + L"\"";
+			std::wcout << cmd << L"\n\n";
 			_wsystem(cmd.c_str());
 			}
 		else
@@ -199,7 +206,6 @@ int main(int argc, char* argv[])
 			std::cout << "Please make sure update the checksum in your dataXXXX.binslot file.\n";
 			}
 		}
-
 
 	// Ignore to the end of file
 	std::cin.clear();

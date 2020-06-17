@@ -15,5 +15,4 @@ set_property(TARGET P4GPC_Namechanger PROPERTY CXX_STANDARD 17)
 # TODO: Fügen Sie bei Bedarf Tests hinzu, und installieren Sie Ziele.
 install(TARGETS P4GPC_Namechanger DESTINATION /)
 
-SET (CPACK_GENERATOR "ZIP")
 include (CPack)

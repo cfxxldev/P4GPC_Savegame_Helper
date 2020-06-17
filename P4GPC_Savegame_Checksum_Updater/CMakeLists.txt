@@ -15,5 +15,4 @@ set_property(TARGET P4GPC_Savegame_Checksum_Updater PROPERTY CXX_STANDARD 17)
 # TODO: Fügen Sie bei Bedarf Tests hinzu, und installieren Sie Ziele.
 install(TARGETS P4GPC_Savegame_Checksum_Updater DESTINATION /)
 
-SET (CPACK_GENERATOR "ZIP")
 include (CPack)
