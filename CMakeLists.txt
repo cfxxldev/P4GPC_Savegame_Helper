@@ -9,7 +9,7 @@ project ("P4GPC_Savegame_Helper" VERSION 1.0.0)
 add_subdirectory ("P4GPC_Savegame_Checksum_Updater")
 add_subdirectory ("P4GPC_Namechanger")
 
-install(FILES "LICENSE.txt"
+install(FILES "LICENSE.txt" "readme.txt"
     DESTINATION .
 )
 
