@@ -9,7 +9,7 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <Windows.h>
-#include <stdio.h>
+#include <cstdio>
 #include <filesystem>
 #include <chrono>
 #include <string>
@@ -17,8 +17,6 @@
 #include <thread>
 #include <iostream>
 #include <algorithm> 
-
-
 
 namespace fs = std::filesystem;
 void backup(fs::path binslot_file)
@@ -70,7 +68,7 @@ static inline void rtrim(std::string& s)
 	{
 	s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char c)
 						 {
-						 return !isspace(c);
+						 return !isspace(c) && c != 0;
 						 }).base(), s.end());
 	}
 
@@ -106,12 +104,14 @@ int main(int argc, char* argv[])
 		if (lastname.empty())
 			{
 			std::cout << "please enter last name: ";
-			std::cin >> lastname;
+			std::getline(std::cin, lastname);
+//			std::cin >> lastname;
 			}
 		if (firstname.empty())
 			{
 			std::cout << "please enter first name: ";
-			std::cin >> firstname;
+			std::getline(std::cin, firstname);
+//			std::cin >> firstname;
 			}
 
 		// limit length to 8 Characters
@@ -126,28 +126,28 @@ int main(int argc, char* argv[])
 		FILE* fBin = nullptr;
 		if (_wfopen_s(&fBin, bin_file.c_str(), L"r+b") == 0 && fBin)
 			{
-			uint8_t dummy[8];
-			memset(dummy, 0, sizeof dummy);
+			char lastname_buffer[16];
+			char firstname_buffer[16];
+			memset(lastname_buffer, 0, sizeof lastname_buffer);
+			memset(firstname_buffer, 0, sizeof firstname_buffer);
+			strcpy_s(lastname_buffer, lastname.c_str());
+			strcpy_s(firstname_buffer, firstname.c_str());
 			// These locations are used by the PS-Vita version, the PC version updated these locations but ignores them otherwise
 			if (fseek(fBin, 0x00010, SEEK_SET) == 0)
 				{
-				fwrite(lastname.c_str(), 1, 8,fBin);
-				fwrite(dummy, 1, 8, fBin);
+				fwrite(lastname_buffer, 1, 8, fBin);
 				}
 			if (fseek(fBin, 0x00022, SEEK_SET) == 0)
 				{
-				fwrite(firstname.c_str(), 1, 8, fBin);
-				fwrite(dummy, 1, 8, fBin);
+				fwrite(firstname_buffer, 1, 8, fBin);
 				}
 			if (fseek(fBin, 0x00064, SEEK_SET) == 0)
 				{
-				fwrite(lastname.c_str(), 1, 8, fBin);
-				fwrite(dummy, 1, 8, fBin);
+				fwrite(lastname_buffer, 1, 8, fBin);
 				}
 			if (fseek(fBin, 0x00076, SEEK_SET) == 0)
 				{
-				fwrite(firstname.c_str(), 1, 8, fBin);
-				fwrite(dummy, 1, 8, fBin);
+				fwrite(firstname_buffer, 1, 8, fBin);
 				}
 
 			// Calculate the checksum over the first 54 Bytes and save it at offset 0x00036(54)
@@ -181,23 +181,19 @@ int main(int argc, char* argv[])
 
 			if (fseek(fBin, 0x015130, SEEK_SET) == 0)
 				{
-				fwrite(lastname.c_str(), 1, 8, fBin);
-				fwrite(dummy, 1, 8, fBin);
+				fwrite(lastname_buffer, 1, 8, fBin);
 				}
 			if (fseek(fBin, 0x015142, SEEK_SET) == 0)
 				{
-				fwrite(firstname.c_str(), 1, 8, fBin);
-				fwrite(dummy, 1, 8, fBin);
+				fwrite(firstname_buffer, 1, 8, fBin);
 				}
 			if (fseek(fBin, 0x019CEC, SEEK_SET) == 0)
 				{
-				fwrite(lastname.c_str(), 1, 8, fBin);
-				fwrite(dummy, 1, 8, fBin);
+				fwrite(lastname_buffer, 1, 8, fBin);
 				}
 			if (fseek(fBin, 0x019CFE, SEEK_SET) == 0)
 				{
-				fwrite(firstname.c_str(), 1, 8, fBin);
-				fwrite(dummy, 1, 8, fBin);
+				fwrite(firstname_buffer, 1, 8, fBin);
 				}
 
 			fclose(fBin);
