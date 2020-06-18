@@ -8,13 +8,7 @@ on:
     
 jobs:
   build_and_release_on_windows:
-    strategy:
-      matrix:
-        os: [windows-latest]
-        configuration: [Release]
-
-      fail-fast: true
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
     env:
       artifactName: P4GPC_Savegame_Helper
       RUNVCPKG_VCPKG_TRIPLET: x86-windows 
@@ -27,12 +21,10 @@ jobs:
         #   toolset: 14.16
 
       - uses: lukka/run-cmake@v0
-        env:
-          RUNVCPKG_VCPKG_TRIPLET: x86-windows 
         with:
             cmakeListsOrSettingsJson: CMakeSettingsJson
             cmakeSettingsJsonPath: '${{ github.workspace }}/CMakeSettings.json'
-            configurationRegexFilter: '${{ matrix.configuration }}'
+            configurationRegexFilter: 'Release'
             vcpkgTriplet: X86-windows
 
       #- uses: marvinpinto/action-automatic-releases@latest
