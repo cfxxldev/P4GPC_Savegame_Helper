@@ -27,6 +27,8 @@ jobs:
         #   toolset: 14.16
 
       - uses: lukka/run-cmake@v0
+        env:
+          RUNVCPKG_VCPKG_TRIPLET: x86-windows 
         with:
             cmakeListsOrSettingsJson: CMakeSettingsJson
             cmakeSettingsJsonPath: '${{ github.workspace }}/CMakeSettings.json'
