@@ -2,10 +2,8 @@ name: C/C++ CI
 on:
   push:
     tags:
-      - v*
-  repository_dispatch:
-    types: [run_tests]
-    
+      - v*   
+
 jobs:
   build_and_release_on_windows:
     runs-on: windows-latest
