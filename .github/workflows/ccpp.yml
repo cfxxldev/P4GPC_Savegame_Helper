@@ -32,7 +32,7 @@ jobs:
           Get-ChildItem -Recurse -Path .
           $FULL_NAME="${{env.artifactName}}_${{runner.os}}"
           cmake --install ./build/x86-Release -v --prefix ./$FULL_NAME
-          7z a $FULL_NAME ./$FULL_NAME
+          7z a $FULL_NAME ./$FULL_NAME/*.*
           echo "::set-output name=full_name::$FULL_NAME"
         working-directory: ${{runner.temp}}
       
@@ -40,10 +40,26 @@ jobs:
         with:
           path: ${{runner.temp}}\${{env.artifactName}}_${{runner.os}}.7z
       
-      - uses: marvinpinto/action-automatic-releases@latest
-        if: github.event_name == 'push'
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
           prerelease: false
-          files: |
-            ${{runner.temp}}\${{env.artifactName}}_${{runner.os}}.7z
+          
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ${{runner.temp}}\${{env.artifactName}}_${{runner.os}}.7z
+          asset_name: ${{env.artifactName}}_${{runner.os}}.7z
+          asset_content_type: application/x-7z-compressed
+          
+          
