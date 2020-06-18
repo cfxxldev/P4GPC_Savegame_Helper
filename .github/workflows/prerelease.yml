@@ -43,13 +43,11 @@ jobs:
         with:
           path: ${{runner.temp}}\${{env.artifactName}}_${{runner.os}}.7z
       
-      - uses: marvinpinto/action-automatic-releases@v1.0.0
-        if: github.event_name == 'push'
+      - uses: meeDamian/github-release@2.0
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: "latest"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: latest
+          allow_override: true
           prerelease: true
-          title: "Development Build"
-          draft: true
-          files: |
-            ${{runner.temp}}/*.7z
+          gzip: false
+          files: ${{runner.temp}}\${{env.artifactName}}_${{runner.os}}.7z
