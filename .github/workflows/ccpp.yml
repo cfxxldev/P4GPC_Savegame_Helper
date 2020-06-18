@@ -36,9 +36,9 @@ jobs:
           echo "::set-output name=full_name::$FULL_NAME"
         working-directory: ${{runner.temp}}
       
-      - uses: actions/upload-artifact@v2
-        with:
-          path: ${{runner.temp}}\${{env.artifactName}}_${{runner.os}}.7z
+#      - uses: actions/upload-artifact@v2
+#        with:
+#          path: ${{runner.temp}}\${{env.artifactName}}_${{runner.os}}.7z
       
       - name: Create Release
         id: create_release
@@ -48,7 +48,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          draft: false
+          draft: true
           prerelease: false
           
       - name: Upload Release Asset
