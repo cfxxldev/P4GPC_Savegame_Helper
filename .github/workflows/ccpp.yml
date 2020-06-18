@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest]
-        configuration: Release
+        configuration: [Release]
 
       fail-fast: true
     runs-on: ${{ matrix.os }}
