@@ -33,7 +33,7 @@ jobs:
         run: |
           Get-ChildItem -Recurse -Path .
           $FULL_NAME="${{env.artifactName}}_${{runner.os}}"
-          cmake --install ./build/x86-Release -v --target package --prefix ./$FULL_NAME
+          cmake --install ./build/x86-Release -v --prefix ./$FULL_NAME
           7z a $FULL_NAME ./$FULL_NAME
           echo "::set-output name=full_name::$FULL_NAME"
         working-directory: ${{runner.temp}}
