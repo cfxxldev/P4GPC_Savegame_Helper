@@ -50,5 +50,6 @@ jobs:
           automatic_release_tag: "latest"
           prerelease: true
           title: "Development Build"
+          draft: true
           files: |
             ${{runner.temp}}/*.7z
