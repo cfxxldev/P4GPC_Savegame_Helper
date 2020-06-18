@@ -3,7 +3,9 @@ on:
   push:
     tags:
       - v*
-
+  repository_dispatch:
+    types: [run_tests]
+    
 jobs:
   build_and_release_on_windows:
     strategy:
