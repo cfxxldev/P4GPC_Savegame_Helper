@@ -39,9 +39,9 @@ jobs:
           echo "::set-output name=full_name::$FULL_NAME"
         working-directory: ${{runner.temp}}
       
-      - uses: actions/upload-artifact@v2
-        with:
-          path: ${{runner.temp}}\${{env.artifactName}}_${{runner.os}}.7z
+#      - uses: actions/upload-artifact@v2
+#        with:
+#          path: ${{runner.temp}}\${{env.artifactName}}_${{runner.os}}.7z
 
       - uses: dev-drprasad/delete-tag-and-release@v0.1.2
         with:
