@@ -38,9 +38,9 @@ jobs:
           echo "::set-output name=full_name::$FULL_NAME"
         working-directory: ${{runner.temp}}
 
-      #- uses: marvinpinto/action-automatic-releases@latest
-      #  with:
-      #    repo_token: ${{ github.token }}
-      #    prerelease: false
-      #    files: |
-      #      ${{runner.temp}}\${{env.artifactName}}_${{runner.os}}.7z
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ github.token }}
+          prerelease: false
+          files: |
+            ${{runner.temp}}\${{env.artifactName}}_${{runner.os}}.7z
