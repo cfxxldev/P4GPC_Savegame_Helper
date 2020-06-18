@@ -34,7 +34,7 @@ jobs:
             cmakeListsOrSettingsJson: CMakeSettingsJson
             configurationRegexFilter: 'Release'
             buildDirectory: ${{ runner.temp }}/build
-            buildWithCMakeArgs: " --target package"
+            buildWithCMakeArgs: "--target package"
 
       #- uses: marvinpinto/action-automatic-releases@latest
       #  with:
