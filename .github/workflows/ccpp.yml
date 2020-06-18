@@ -23,7 +23,6 @@ jobs:
       - uses: lukka/run-cmake@v0
         with:
             cmakeListsOrSettingsJson: CMakeSettingsJson
-            cmakeSettingsJsonPath: '${{ github.workspace }}/CMakeSettings.json'
             configurationRegexFilter: 'Release'
             vcpkgTriplet: X86-windows
 
