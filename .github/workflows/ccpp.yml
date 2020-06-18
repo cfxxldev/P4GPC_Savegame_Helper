@@ -43,7 +43,7 @@ jobs:
       - uses: marvinpinto/action-automatic-releases@latest
         if: github.event_name == 'push'
         with:
-          repo_token: ${{ github.token }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: false
           files: |
             ${{runner.temp}}\${{env.artifactName}}_${{runner.os}}.7z
