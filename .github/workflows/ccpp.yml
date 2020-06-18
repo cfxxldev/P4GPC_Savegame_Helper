@@ -30,6 +30,7 @@ jobs:
             cmakeListsOrSettingsJson: CMakeSettingsJson
             cmakeSettingsJsonPath: '${{ github.workspace }}/CMakeSettings.json'
             configurationRegexFilter: '${{ matrix.configuration }}'
+            useVcpkgToolchainFile: false 
 
       #- uses: marvinpinto/action-automatic-releases@latest
       #  with:
