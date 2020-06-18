@@ -20,7 +20,7 @@ jobs:
             arch: x86
         #   toolset: 14.16
 
-      - uses: lukka/run-cmake@v0
+      - uses: lukka/run-cmake@v2
         with:
             cmakeListsOrSettingsJson: CMakeSettingsJson
             configurationRegexFilter: 'Release'
