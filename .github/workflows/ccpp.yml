@@ -17,6 +17,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       artifactName: P4GPC_Savegame_Helper
+      RUNVCPKG_VCPKG_TRIPLET: x86-windows 
     steps:
       - uses: actions/checkout@v2
 
@@ -30,7 +31,6 @@ jobs:
             cmakeListsOrSettingsJson: CMakeSettingsJson
             cmakeSettingsJsonPath: '${{ github.workspace }}/CMakeSettings.json'
             configurationRegexFilter: '${{ matrix.configuration }}'
-            useVcpkgToolchainFile: false 
 
       #- uses: marvinpinto/action-automatic-releases@latest
       #  with:
