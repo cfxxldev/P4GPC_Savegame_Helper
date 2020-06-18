@@ -11,7 +11,6 @@ jobs:
     runs-on: windows-latest
     env:
       artifactName: P4GPC_Savegame_Helper
-      RUNVCPKG_VCPKG_TRIPLET: x86-windows 
       CC: cl
       CXX: cl 
     steps:
@@ -26,7 +25,6 @@ jobs:
         with:
             cmakeListsOrSettingsJson: CMakeSettingsJson
             configurationRegexFilter: 'Release'
-            vcpkgTriplet: X86-windows
 
       #- uses: marvinpinto/action-automatic-releases@latest
       #  with:
