@@ -37,7 +37,11 @@ jobs:
           7z a $FULL_NAME ./$FULL_NAME
           echo "::set-output name=full_name::$FULL_NAME"
         working-directory: ${{runner.temp}}
-
+      
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ${{runner.temp}}\${{env.artifactName}}_${{runner.os}}.7z
+      
       - uses: marvinpinto/action-automatic-releases@latest
         if: github.event_name == 'push'
         with:
