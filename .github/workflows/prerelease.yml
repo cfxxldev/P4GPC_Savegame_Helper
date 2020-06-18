@@ -43,7 +43,7 @@ jobs:
         with:
           path: ${{runner.temp}}\${{env.artifactName}}_${{runner.os}}.7z
       
-      - uses: marvinpinto/action-automatic-releases@latest
+      - uses: marvinpinto/action-automatic-releases@v1
         if: github.event_name == 'push'
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
