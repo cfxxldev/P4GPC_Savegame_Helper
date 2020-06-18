@@ -21,10 +21,20 @@ jobs:
             arch: x86
         #   toolset: 14.16
 
-      - uses: lukka/run-cmake@v2
+      - name: build with cmake
+        uses: lukka/run-cmake@v2
         with:
             cmakeListsOrSettingsJson: CMakeSettingsJson
             configurationRegexFilter: 'Release'
+            buildDirectory: ${{ runner.temp }}/build
+
+      - name: pack with cmake
+        uses: lukka/run-cmake@v2
+        with:
+            cmakeListsOrSettingsJson: CMakeSettingsJson
+            configurationRegexFilter: 'Release'
+            buildDirectory: ${{ runner.temp }}/build
+            buildWithCMakeArgs: " --target package"
 
       #- uses: marvinpinto/action-automatic-releases@latest
       #  with:
