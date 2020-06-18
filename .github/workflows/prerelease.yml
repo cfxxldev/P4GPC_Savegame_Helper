@@ -51,4 +51,4 @@ jobs:
           prerelease: true
           title: "Development Build"
           files: |
-            ${{runner.temp}}\${{env.artifactName}}_${{runner.os}}.7z
+            ${{runner.temp}}/*.7z
