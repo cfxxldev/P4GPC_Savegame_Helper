@@ -12,6 +12,8 @@ jobs:
     env:
       artifactName: P4GPC_Savegame_Helper
       RUNVCPKG_VCPKG_TRIPLET: x86-windows 
+      CC: cl
+      CXX: cl 
     steps:
       - uses: actions/checkout@v2
 
