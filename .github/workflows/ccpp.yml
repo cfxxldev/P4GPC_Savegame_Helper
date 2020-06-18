@@ -28,13 +28,14 @@ jobs:
             configurationRegexFilter: 'Release'
             buildDirectory: ${{ runner.temp }}/build
 
-      - name: pack with cmake
-        uses: lukka/run-cmake@v2
-        with:
-            cmakeListsOrSettingsJson: CMakeSettingsJson
-            configurationRegexFilter: 'Release'
-            buildDirectory: ${{ runner.temp }}/build
-            buildWithCMakeArgs: "--target package"
+      - name: pack
+        id: pack
+        run: |
+          Get-ChildItem -Recurse -Path .
+          $FULL_NAME="${{env.artifactName}}_${{runner.os}}"
+          cmake --build ./build/x86-Release -v --target package --prefix ./$FULL_NAME
+          echo "::set-output name=full_name::$FULL_NAME"
+        working-directory: ${{runner.temp}}
 
       #- uses: marvinpinto/action-automatic-releases@latest
       #  with:
