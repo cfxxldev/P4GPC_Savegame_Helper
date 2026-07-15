@@ -1,3 +1,10 @@
+# This repository is unmaintained
+- The tools probably won't work with any recent version of the game
+# All pre-built binaries have been removed from all releases
+- there were reports that virus-total flagged the files as containing trojans
+  - while I'm convinced these are false positives, I removed the binaries to reduce the risk of spreading malicious code
+  - the binary-files were last built in 2020 using github-actions
+    - I deleted the github-actions to not accidently rebuild any binaries
 # P4GPC_Savegame_Helper
 Tools to help with working with Persona 4 Golden (PC) savegames:
 
